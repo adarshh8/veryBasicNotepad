@@ -1,49 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Document</title>
-  </head>
-  <body>
-    <div class="w-full min-h-screen bg-zinc-500">
-      <div class="form p-10 text-white">
-        <form action="/create" method="post">
-          <input
-            class="block px-5 py-2 bg-zinc-800 w-full rounded-md"
-            type="text"
-            name="title"
-            placeholder="Tittle...."
-          />
-          <textarea
-            class="block px-5 py-2 mt-2 bg-zinc-800 resize-none w-full rounded-md"
-            name="detail"
-            placeholder="write your text here....."
-          ></textarea>
-          <input
-            class="mt-2 rounded-md bg-blue-600 px-5 py-2"
-            type="submit"
-            value="create task"
-          />
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <title>Notepad</title>
+  <style>
+    body {
+      font-family: 'Outfit', sans-serif;
+    }
+  </style>
+</head>
+
+<body class="bg-zinc-900 text-zinc-100 min-h-screen selection:bg-blue-500 selection:text-white">
+  <div class="w-full min-h-screen bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900">
+
+    <!-- Header / Form Section -->
+    <div class="w-full max-w-4xl mx-auto pt-20 px-6">
+      <h1 class="text-4xl font-bold mb-2 tracking-tight">Classic Notepad</h1>
+      <p class="text-zinc-400 mb-8">Capture your thoughts in a simple, elegant space.</p>
+
+      <div class="bg-zinc-800/50 backdrop-blur-md border border-zinc-700/50 p-8 rounded-2xl shadow-xl shadow-black/20">
+        <form action="/create" method="post" class="space-y-4">
+          <div>
+            <input
+              class="w-full bg-zinc-900/50 border border-zinc-700 rounded-xl px-5 py-3 text-lg placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+              type="text" name="title" placeholder="Title" required />
+          </div>
+          <div>
+            <textarea
+              class="w-full bg-zinc-900/50 border border-zinc-700 rounded-xl px-5 py-3 text-lg placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 resize-none h-40 transition-all"
+              name="detail" placeholder="Write your note here..." required></textarea>
+          </div>
+          <div class="flex justify-end">
+            <button
+              class="bg-blue-600 hover:bg-blue-500 text-white font-medium px-8 py-3 rounded-xl transition-all shadow-lg shadow-blue-600/20 active:scale-95 transform"
+              type="submit">
+              Create Note
+            </button>
+          </div>
         </form>
       </div>
-      <div class="task p-10 flex gap-4 flex-wrap">
-        <% if(files.length>0){ %> <% files.forEach(function(val){ %>
+    </div>
 
-        <div class="w-72 bg-zinc-800 px-3 py-4 rounded-md">
-          <h1 class="text-white text-3xl tracking-tighter">
-            <%=val %>
-          </h1>
-          <div class="justify-between flex mt-2">
-          <a class="text-blue-300 inline-block" href="/file/<%= val %>">Read more..</a>
-          <a class="text-zinc-300 inline-block" href="/edit/<%= val %>">Edit filename</a>
-          </div>
-        </div>
-        <%}) %> <% } else {%>
-        <h1 class="text-zinc-300">No task yet</h1>
-        <% }%>
+    <!-- Tasks Grid -->
+    <div class="w-full max-w-7xl mx-auto mt-16 px-6 pb-20">
+      <h2 class="text-xl font-semibold text-zinc-400 mb-6 px-2">Your Notes</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <% if(files.length> 0){ %>
+          <% files.forEach(function(val){ %>
+            <div
+              class="group relative bg-zinc-800/40 hover:bg-zinc-800/80 border border-zinc-700/50 hover:border-zinc-600 rounded-2xl p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+              <h3
+                class="text-2xl font-semibold text-zinc-100 mb-8 tracking-tight line-clamp-1 group-hover:text-blue-400 transition-colors">
+                <%= val %>
+              </h3>
+              <div class="flex items-center justify-between mt-auto">
+                <a class="text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors"
+                  href="/file/<%= val %>">Read note &rarr;</a>
+                <a class="text-sm font-medium text-zinc-500 hover:text-zinc-300 transition-colors"
+                  href="/edit/<%= val %>">Rename</a>
+              </div>
+            </div>
+            <% }) %>
+              <% } else { %>
+                <div class="col-span-full text-center py-20">
+                  <p class="text-zinc-500 text-lg">No notes yet. Create one above!</p>
+                </div>
+                <% } %>
       </div>
     </div>
-  </body>
+
+  </div>
+</body>
+
 </html>
